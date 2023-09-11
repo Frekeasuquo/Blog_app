@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
@@ -69,7 +69,7 @@ const moreLinks = [
 
 const utmParameters = `?utm_source=starter&utm_medium=start-page&utm_campaign=default-starter`
 
-const IndexPage = () => (
+/** const IndexPage = () => (
   <Layout>
     <div className={styles.textCenter}>
       <StaticImage
@@ -116,7 +116,30 @@ const IndexPage = () => (
       </React.Fragment>
     ))}
   </Layout>
-)
+)**/
+
+export default ({ data }) => {
+
+  return (
+    <Layout>
+      <Seo title = "Home"/>
+      <div>
+        <h1>Ndifreke is a great man</h1>
+        <h3>{data.allMarkdownRemark.totalCount}</h3>
+        {
+          data.allMarkdownRemark.edges.map(({ node}) => (
+            <div key={node.id}>
+              <span>
+                {node.frontmatter.title} - {node.frontmatter.date}
+              </span>
+              <p>{node.excerpt}</p>
+            </div>
+          ))
+        }
+      </div>
+    </Layout>
+  )
+}
 
 /**
  * Head export to define metadata for the page
@@ -125,4 +148,20 @@ const IndexPage = () => (
  */
 export const Head = () => <Seo title="Home" />
 
-export default IndexPage
+
+export const query = graphql`
+  query {
+  allMarkdownRemark {
+    edges {
+      node {
+        id
+        frontmatter {
+          date
+          description
+        }
+        excerpt
+      }
+    }
+  }
+}
+`
