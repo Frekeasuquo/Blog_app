@@ -135,7 +135,7 @@ export default ({ data }) => {
       <Seo title = "Home"/>
       <div>
         <h1>Ndifreke is a great man</h1>
-        <h3>{data.allMarkdownRemark.totalCount}</h3>
+        <h3>{data.allMarkdownRemark.totalCount} Posts</h3>
         {
           data.allMarkdownRemark.edges.map(({ node}) => (
             <div key={node.id}>
